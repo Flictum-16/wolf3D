@@ -1,0 +1,56 @@
+/*
+** utils_box.h for  in /home/bertra_v/tek_1/Igraph/MUL_2014_fdf
+**
+** Made by Florent Bertrand
+** Login   <bertra_v@epitech.net>
+**
+** Started on  Tue Nov 18 10:31:11 2014 Florent Bertrand
+** Last update Sun Nov 23 18:32:14 2014 Florent Bertrand
+*/
+
+#ifndef	MY_TOOLS_
+# define MY_TOOLS_
+
+# define WIDTH 800
+# define HEIGHT 600
+
+typedef struct	s_img
+{
+  void		*img_ptr;
+  int		bpp;
+  int		sizeline;
+  int		endian;
+  int		*data;
+  unsigned long	img_in_color;
+}		t_img;
+
+typedef struct	s_point
+{
+  int		x;
+  int		y;
+}		t_point;
+
+typedef	struct	s_pixel
+{
+  int		x;
+  int		y;
+}		t_pixel;
+
+typedef	struct	s_mlx
+{
+  void		*mlx;
+  void		*window;
+  t_img		img;
+}		t_mlx;
+
+typedef	struct	s_utils
+{
+  int	dx;
+  int	dy;
+  int	xinc;
+  int	yinc;
+  int	x;
+  int	y;
+}		t_utils;
+
+#endif /*MY_TOOLS_*/
