@@ -5,13 +5,13 @@
 ** Login   <bertra_v@epitech.net>
 **
 ** Started on  Tue Dec 16 18:02:10 2014 Florent Bertrand
-** Last update Thu Dec 18 22:13:54 2014 Florent Bertrand
+** Last update Fri Dec 19 18:53:22 2014 Florent Bertrand
 */
 
 #ifndef WOLF3D_
  # define WOLF3D_
 
-#define REFRESH_OPTION
+#define REFRESH_OPTION 60
 
 #define WIDTH 1200
 
@@ -37,6 +37,7 @@ typedef	struct	s_mlx
   t_params	*params;
 }		t_mlx;
 
-int    my_put_pixel_in_image(t_mlx *mlx, int x, int y, int color);
+int	my_put_pixel_in_image(t_mlx *mlx, int x, int y, int color);
+void	wolf_calc(t_mlx *mlx, t_params *params);
 
 #endif /*WOLF3D_*/
