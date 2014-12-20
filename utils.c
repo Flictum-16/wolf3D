@@ -5,7 +5,7 @@
 ** Login   <bertra_v@epitech.net>
 **
 ** Started on  Fri Dec 19 18:51:31 2014 Florent Bertrand
-** Last update Fri Dec 19 19:02:03 2014 Florent Bertrand
+** Last update Sat Dec 20 17:54:51 2014 Florent Bertrand
 */
 
 #include <stdlib.h>
@@ -13,19 +13,6 @@
 #include "my.h"
 #include "mlx.h"
 #include "wolf3D.h"
-
-int	map2[9][9]=
-  {
-    {1, 2, 1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 0, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 1, 0, 1},
-    {1, 0, 1, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1, 0, 1, 0, 1},
-    {1, 1, 0, 1, 0, 0, 1, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 0, 0, 1, 0, 0, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1}
-  };
 
 void	clear_img(t_mlx *mlx, t_params *params)
 {
@@ -35,7 +22,7 @@ void	clear_img(t_mlx *mlx, t_params *params)
   y = 0;
   x = 0;
   while (x < WIDTH)
-    {
+   {
       y = 0;
       while (y < HEIGHT / 2)
 	{
@@ -47,9 +34,25 @@ void	clear_img(t_mlx *mlx, t_params *params)
 	  my_put_pixel_in_image(mlx, x, y, 0x66cc66);
 	  y++;
 	}
-
       x++;
+   }
+}
+
+void	aff_wall(t_mlx *mlx, t_params *params, double DX, double DY)
+{
+  if (map[(int)DX][(int)DY] == 1)
+    {
+      while (params->s_wall <= params->e_wall)
+	{
+	  if (DX - (int)DX >= 0.01 && DX - (int)DX <= 0.99)
+	    my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0x808080);
+	  else
+	    my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0x9E9E9E);
+	}
     }
+  else if (map[(int)DX][(int)DY] == 2)
+    while (params->s_wall <= params->e_wall)
+      my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0xFF0000);
 }
 
 void		d_wall(t_params *params, t_mlx *mlx, double pMx, double pMy)
@@ -59,28 +62,20 @@ void		d_wall(t_params *params, t_mlx *mlx, double pMx, double pMy)
   double	DY;
   double	height;
 
-
   DX = params->Xo + pMx;
   DY = params->Yo + pMy;
-  while (map2[(int)DX][(int)DY] == 0)
+  while (map[(int)DX][(int)DY] == 0)
     {
       DX += pMx * 0.001;
       DY += pMy * 0.001;
     }
   DP = sqrt(pow((params->Xo - DX), 2) + pow((params->Yo - DY), 2));
   DP /= sqrt(pow(pMx, 2) + pow(pMy, 2));
-  height = WIDTH / (DP / 1);
-  params->s_wall = WIDTH / 2 - height / 2;
+  height = HEIGHT / (DP / 1);
+  params->s_wall = HEIGHT / 2 - height / 2;
   params->e_wall = params->s_wall + height;
-  if (map2[(int)DX][(int)DY] == 1)
-    {
-      while (params->s_wall <= params->e_wall)
-	my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0x9E9E9E);
-    }
-  else if (map2[(int)DX][(int)DY] == 2)
-    while (params->s_wall <= params->e_wall)
-      my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0xFF0000);
-}
+  aff_wall(mlx, params, DX, DY);
+ }
 
 void		wolf_calc(t_mlx *mlx, t_params *params)
 {
@@ -102,6 +97,5 @@ void		wolf_calc(t_mlx *mlx, t_params *params)
       d_wall(params, mlx, pMx, pMy);
       i++;
     }
-  if (mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img, 0, 0) == 0)
-    return ;
+  expose_hook(mlx);
 }

@@ -5,13 +5,12 @@
 ** Login   <bertra_v@epitech.net>
 **
 ** Started on  Tue Dec 16 20:51:02 2014 Florent Bertrand
-** Last update Fri Dec 19 18:52:17 2014 Florent Bertrand
+** Last update Sat Dec 20 18:51:53 2014 Florent Bertrand
 */
 
 #include <stdlib.h>
 #include <math.h>
 #include <X11/XKBlib.h>
-#include <mlx_int.h>
 #include "my.h"
 #include "mlx.h"
 #include "wolf3D.h"
@@ -31,7 +30,6 @@ int	map[9][9]=
 
 int	key_hook(int keycode, t_mlx *mlx)
 {
-  printf("%d\n", keycode);
   if (keycode == 65307)
     exit(0);
   if (keycode == 65362 &&
@@ -76,15 +74,34 @@ int	key_hook2(int keycode, t_mlx *mlx)
       map[(int)(mlx->params->Xo + cos(mlx->params->angle))]
       [(int)(mlx->params->Yo + sin(mlx->params->angle))] == 2)
     {
-      my_putstr("Bravo, tu as trouvé la sortie du labyrinthe brave aventurier tu as le droit à un: Kinder");
+      my_putstr("Bravo, tu as trouvé la sortie du labyrinthe ");
+      my_putstr("brave aventurier tu as le droit à un: Kinder");
       exit(3);
     }
   return (0);
 }
 
+char	*strlcpy(char *dest, char *src, int n)
+{
+  int   i;
+
+  i = 0;
+  while (i < n && src[i] != '\0')
+    {
+      dest[i] = src[i];
+      i++;
+    }
+  if (i == n)
+      dest[i] = '\0';
+  return (dest);
+}
+
 int	expose_hook(t_mlx *mlx)
 {
   mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->img, 0, 0);
+  mlx_put_image_to_window(mlx->mlx, mlx->window, mlx->gun,
+			  (WIDTH - (2 * mlx->gun->width)),
+			  (HEIGHT - (mlx->gun->height)));
 }
 
 int	main(int ac, char **av)
@@ -99,11 +116,15 @@ int	main(int ac, char **av)
     }
   mlx.window = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "Wolflictum3D");
   mlx.img = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
+  mlx.gun = mlx_xpm_file_to_image(mlx.mlx, "gun.xpm", &mlx.gx, &mlx.gy);
   params.Xo = 4.5;
   params.Yo = 5.5;
   params.angle = M_PI / 4;
   mlx.params = &params;
   wolf_calc(&mlx, &params);
+  mlx_put_image_to_window(mlx.mlx, mlx.window, mlx.gun,
+			  (WIDTH - (2 * mlx.gun->width)),
+			  (HEIGHT - (mlx.gun->height)));
   mlx_expose_hook(mlx.window, expose_hook, &mlx);
   mlx_hook(mlx.window, KeyPress, KeyPressMask, key_hook, &mlx);
   mlx_loop(mlx.mlx);
