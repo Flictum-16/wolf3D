@@ -5,7 +5,7 @@
 ** Login   <bertra_v@epitech.net>
 **
 ** Started on  Fri Nov 14 09:32:27 2014 Florent Bertrand
-** Last update Sat Dec 20 17:51:29 2014 Florent Bertrand
+** Last update Sun Dec 21 16:42:04 2014 Florent Bertrand
 */
 
 #include <stdio.h>
@@ -26,4 +26,19 @@ int	my_put_pixel_in_image(t_mlx *mlx, int x, int y, int color)
     }
   else
     return (0);
+}
+
+char	*strlcpy(char *dest, char *src, int n)
+{
+  int   i;
+
+  i = 0;
+  while (i < n && src[i] != '\0')
+    {
+      dest[i] = src[i];
+      i++;
+    }
+  if (i == n)
+      dest[i] = '\0';
+  return (dest);
 }

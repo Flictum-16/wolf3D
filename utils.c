@@ -5,7 +5,7 @@
 ** Login   <bertra_v@epitech.net>
 **
 ** Started on  Fri Dec 19 18:51:31 2014 Florent Bertrand
-** Last update Sat Dec 20 17:54:51 2014 Florent Bertrand
+** Last update Sun Dec 21 16:20:37 2014 Florent Bertrand
 */
 
 #include <stdlib.h>
@@ -40,7 +40,7 @@ void	clear_img(t_mlx *mlx, t_params *params)
 
 void	aff_wall(t_mlx *mlx, t_params *params, double DX, double DY)
 {
-  if (map[(int)DX][(int)DY] == 1)
+  if (map[mlx->niv][(int)DX][(int)DY] == 1)
     {
       while (params->s_wall <= params->e_wall)
 	{
@@ -50,9 +50,15 @@ void	aff_wall(t_mlx *mlx, t_params *params, double DX, double DY)
 	    my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0x9E9E9E);
 	}
     }
-  else if (map[(int)DX][(int)DY] == 2)
+  else if (map[mlx->niv][(int)DX][(int)DY] == 2)
     while (params->s_wall <= params->e_wall)
       my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0xFF0000);
+  else if (map[mlx->niv][(int)DX][(int)DY] == 3)
+    while (params->s_wall <= params->e_wall)
+      my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0x00FF00);
+  else if (map[mlx->niv][(int)DX][(int)DY] == 4)
+    while (params->s_wall <= params->e_wall)
+      my_put_pixel_in_image(mlx, params->j, params->s_wall++, 0x0000FF);
 }
 
 void		d_wall(t_params *params, t_mlx *mlx, double pMx, double pMy)
@@ -64,7 +70,7 @@ void		d_wall(t_params *params, t_mlx *mlx, double pMx, double pMy)
 
   DX = params->Xo + pMx;
   DY = params->Yo + pMy;
-  while (map[(int)DX][(int)DY] == 0)
+  while (map[mlx->niv][(int)DX][(int)DY] == 0)
     {
       DX += pMx * 0.001;
       DY += pMy * 0.001;

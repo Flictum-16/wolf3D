@@ -5,7 +5,7 @@
 ** Login   <bertra_v@epitech.net>
 **
 ** Started on  Tue Dec 16 18:02:10 2014 Florent Bertrand
-** Last update Sat Dec 20 18:28:27 2014 Florent Bertrand
+** Last update Sun Dec 21 16:42:50 2014 Florent Bertrand
 */
 
 #ifndef WOLF3D_
@@ -40,9 +40,11 @@ typedef	struct	s_mlx
   t_params	*params;
   int		gx;
   int		gy;
+  int		niv;
 }		t_mlx;
 
-int	map[9][9];
+extern int	map[3][28][34];
+char    *strlcpy(char *dest, char *src, int n);
 int	my_put_pixel_in_image(t_mlx *mlx, int x, int y, int color);
 void	wolf_calc(t_mlx *mlx, t_params *params);
 
